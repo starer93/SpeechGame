@@ -54,4 +54,21 @@
         android:layout_alignTop="@+id/text_score"
         android:layout_centerHorizontal="true"/>
 
+    <TextView
+        android:id="@+id/words_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/words"
+        android:layout_toRightOf="@+id/words"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/text_score"
+        android:layout_alignBottom="@+id/text_score"
+        android:layout_toLeftOf="@+id/words"
+        android:text="" />
+
 </RelativeLayout>
