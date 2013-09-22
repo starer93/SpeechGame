@@ -1,28 +1,25 @@
 package com.cymars.speechgame;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Random;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class LevelOne extends Activity implements View.OnClickListener, OnTouchListener{
 	protected static final int RESULT_SPEECH = 1;
@@ -192,8 +189,17 @@ public class LevelOne extends Activity implements View.OnClickListener, OnTouchL
 				voiceInput.setText(input);
 				if(wordList.contains(word))
 	            {
-	                if(word.equals(input))
+                    String wordToCheck = word.toLowerCase();
+	                if(wordToCheck.equals(input))
+                    {
 	                    resetButtonText();
+                        wordList.remove(word);
+                        String integer = (String) wordsLeftToFind.getText();
+                        int i = Integer.parseInt(integer);
+                        i--;
+                        wordsLeftToFind.setText("" + i);
+                        word = "";
+                    }
 	                else
 	                    Toast.makeText(getApplicationContext(), "Did you say that wrong?", Toast.LENGTH_SHORT);
 	            }
