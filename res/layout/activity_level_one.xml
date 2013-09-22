@@ -44,14 +44,64 @@
         android:layout_alignLeft="@+id/grid"
         android:layout_alignParentTop="true"
         android:layout_marginTop="34dp"
-        android:text="Score"
+        android:text="Score: 0"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+  
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/grid"
+        android:layout_alignLeft="@+id/grid"
+        android:layout_marginBottom="15dp"
+        android:text="Number of Words Left:" />
+
+    <TextView
+        android:id="@+id/input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_score"
+        android:layout_toRightOf="@+id/text_score"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/text_score"
+        android:layout_below="@+id/text_score"
+        android:text="Voices:" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/input"
+        android:text="Text input:" />
 
     <TextView
         android:id="@+id/words"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/text_score"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_toRightOf="@+id/input" />
+
+    <TextView
+        android:id="@+id/words_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/textView1" />
+
+    <TextView
+        android:id="@+id/word_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/words_left"
+        android:layout_alignLeft="@+id/textView3"
+        android:text="left word list" /> //remove this line later.
 
 </RelativeLayout>
