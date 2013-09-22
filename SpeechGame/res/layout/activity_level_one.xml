@@ -44,7 +44,7 @@
         android:layout_alignLeft="@+id/grid"
         android:layout_alignParentTop="true"
         android:layout_marginTop="34dp"
-        android:text="Score"
+        android:text="Score: 0"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -55,20 +55,31 @@
         android:layout_centerHorizontal="true"/>
 
     <TextView
-        android:id="@+id/words_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/words"
-        android:layout_toRightOf="@+id/words"
-        android:text="" />
-
-    <TextView
         android:id="@+id/input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/text_score"
         android:layout_alignBottom="@+id/text_score"
+        android:layout_marginRight="18dp"
         android:layout_toLeftOf="@+id/words"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/grid"
+        android:layout_alignLeft="@+id/grid"
+        android:layout_marginBottom="15dp"
+        android:text="Number of Words Left:" />
+
+    <TextView
+        android:id="@+id/words_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_toRightOf="@+id/words"
         android:text="" />
 
 </RelativeLayout>

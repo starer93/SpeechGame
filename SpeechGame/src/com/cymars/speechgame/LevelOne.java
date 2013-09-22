@@ -24,15 +24,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LevelOne extends Activity implements View.OnClickListener, OnTouchListener{
+public class LevelOne extends Activity implements View.OnClickListener {
 	protected static final int RESULT_SPEECH = 1;
-    View.OnTouchListener gestureListener;
 
     private Button btnSpeak;
     private Button lastSelectedButton;
     private LinkedList<String> wordList = new LinkedList<String>();
     private TextView voiceInput;
 	private TextView score;
+	private int scores = 0;
 	private String input;
     private LinkedList<Button> listOfButtons = new LinkedList<Button>();
     private LinkedList<Button> selectedButtons = new LinkedList<Button>();
@@ -132,7 +132,7 @@ public class LevelOne extends Activity implements View.OnClickListener, OnTouchL
 
     private void randomiseGrid()
     {
-        LinkedList<String> charsForGrid = new LinkedList<String>();
+LinkedList<String> charsForGrid = new LinkedList<String>();
         
         for (Button button : listOfButtons) charsForGrid.add(button.getText().toString());
         LinkedList<String> charList = new LinkedList<String>();
@@ -157,6 +157,12 @@ public class LevelOne extends Activity implements View.OnClickListener, OnTouchL
             listOfButtons.get(i).setText(charList.pollFirst());
             i++;
         }
+
+        while(!charList.isEmpty())
+        {
+            listOfButtons.get(i).setText(charList.pollFirst());
+            i++;
+        }
     }
     
     private void resetButtonText()
@@ -175,7 +181,11 @@ public class LevelOne extends Activity implements View.OnClickListener, OnTouchL
         }
         randomiseGrid();
     }
-
+    
+    private void addScore(int value)
+    {
+       scores += value;
+    }
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -193,7 +203,11 @@ public class LevelOne extends Activity implements View.OnClickListener, OnTouchL
 				if(wordList.contains(word))
 	            {
 	                if(word.equals(input))
-	                    resetButtonText();
+	                {
+	                	addScore(10);
+	                	score.setText("Score: " + scores);
+	                	resetButtonText();
+	                }
 	                else
 	                    Toast.makeText(getApplicationContext(), "Did you say that wrong?", Toast.LENGTH_SHORT);
 	            }
@@ -264,9 +278,5 @@ public class LevelOne extends Activity implements View.OnClickListener, OnTouchL
 	        }
 	    }
 
-	@Override
-	public boolean onTouch(View v, MotionEvent me) {
-		return false;
-	}
 }
 
