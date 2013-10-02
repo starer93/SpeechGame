@@ -17,4 +17,13 @@
         android:layout_marginBottom="94dp"
         android:text="@string/new_game"/>
 
+    <TextView
+        android:id="@+id/textHello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button_start"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="43dp"
+        android:text="@string/hello" />
+
 </RelativeLayout>

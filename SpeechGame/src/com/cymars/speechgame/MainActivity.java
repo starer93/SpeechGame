@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -32,5 +33,12 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
+	public boolean test1() {
+//		TextView view = (TextView) findViewById(R.id.textHello);
+		//String text = view.toString();
+		return true;
+	}
+	
 
 }

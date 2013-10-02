@@ -28,6 +28,11 @@ public class TextImporter {
     	this.context = context;
         WordList (directory);
     }
+    
+    public void removeWord(String word)
+    {
+    	wordsInGrid.remove(word);
+    }
 
     private void WordList (String directory) throws IOException {
 
@@ -39,6 +44,7 @@ public class TextImporter {
 		 fis = am.open("words.txt");
         br = new BufferedReader(new InputStreamReader(fis, Charset.forName("UTF-8")));
         while ((line = br.readLine()) != null) {
+            line = line.toUpperCase();
             wordList.add(line);
         }
         br.close();
@@ -50,6 +56,7 @@ public class TextImporter {
     public void makeCharArray(int lettersToGet) {
         LinkedList<String>wordToMakeArray = new LinkedList<String>();
         Random random = new Random();
+        boolean open = true;
         for(int i = 0; i < lettersToGet; i++)
         {
             if(leftOverChars.length() > 0)
@@ -67,7 +74,7 @@ public class TextImporter {
 				for(int j = 0; j < (lettersToGet - i); j ++)
 				{
 					int x = random.nextInt(25);
-					char y = (char) ((int)'a' + x);
+					char y = (char) ((int)'A' + x);
                         word += y;
 				}
 				i = lettersToGet + 1;
@@ -82,10 +89,12 @@ public class TextImporter {
                     {
                         leftOverChars += word.charAt(j);
                     }
+                    open = false;
                     break;
                 }
             }
             i--;
+            if(open)
             wordsInGrid.add(word);
             word = "";
 
@@ -112,4 +121,3 @@ public class TextImporter {
         return wordsInList;
     }
 }
-

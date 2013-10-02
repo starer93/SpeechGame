@@ -11,8 +11,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.speech.RecognizerIntent;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +26,6 @@ public class LevelOne extends Activity implements View.OnClickListener {
 	protected static final int RESULT_SPEECH = 1;
 
     private Button btnSpeak;
-    private Button lastSelectedButton;
     private LinkedList<String> wordList = new LinkedList<String>();
     private TextView voiceInput;
 	private TextView score;
@@ -36,12 +33,12 @@ public class LevelOne extends Activity implements View.OnClickListener {
 	private String input;
     private LinkedList<Button> listOfButtons = new LinkedList<Button>();
     private LinkedList<Button> selectedButtons = new LinkedList<Button>();
-    private TextView wordsLeftToFind;
-    private Button clear_button;
+    private TextView numberOfWordsLeftToFind;
 	TextView words;
 	String word = "";
 	Random random = new Random();
     TextImporter textImporter;
+    TextView wordsLeftList;
     
 	@Override	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,23 +49,23 @@ public class LevelOne extends Activity implements View.OnClickListener {
 		Button clear_btn = (Button) findViewById(R.id.clear_button);
 		clear_btn.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
-				word = "";
-				words.setText("");
+                clearButton();
 			}
 		});
-		
-		 wordsLeftToFind = (TextView)findViewById (R.id.words_left);
+
+		numberOfWordsLeftToFind = (TextView)findViewById (R.id.words_left);
+        wordsLeftList = (TextView) findViewById(R.id.word_list);
 	        try
 	        {
 	            textImporter= new TextImporter("/assets/words.txt", getApplicationContext());
-	            wordsLeftToFind.setText("" + textImporter.getNumberOfWordsInList());
+	            numberOfWordsLeftToFind.setText("" + textImporter.getNumberOfWordsInList());
 	        }
 	        catch (IOException e) {
 	        	String error = e.getCause().toString();
 	             Toast.makeText(getApplicationContext(), "Invalid file", Toast.LENGTH_SHORT);
 	            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 	        }
-		
+
 		setGrid();
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -99,15 +96,14 @@ public class LevelOne extends Activity implements View.OnClickListener {
 		getMenuInflater().inflate(R.menu.level_one, menu);
 		return true;
 	}
-	
+
 	private void setGrid()
 	{
-		
+
 		LinearLayout layout = (LinearLayout) findViewById(R.id.grid);
-		 
+
 		layout.setOrientation(LinearLayout.VERTICAL);
 		textImporter.makeCharArray(50);
-        wordList = textImporter.getWordsInGrid();
         LinkedList<String> lettersForGrid = textImporter.getCharList();
 		for(int i = 0; i < 5; i ++)
 		{
@@ -130,20 +126,33 @@ public class LevelOne extends Activity implements View.OnClickListener {
 
 	}
 
+    private void updateWordList()
+    {
+        String wordsForList = "\t";
+        int i = 0;
+        for(String word: wordList)
+        {
+            wordsForList += word + " ";
+            i++;
+            if(i == 2)
+            {
+                wordsForList += "\n";
+                i = 0;
+            }
+        }
+        wordsLeftList.setText(wordsForList);
+    }
     private void randomiseGrid()
     {
-LinkedList<String> charsForGrid = new LinkedList<String>();
-        
+        LinkedList<String> charsForGrid = new LinkedList<String>();
+        wordList = textImporter.getWordsInGrid();
+        updateWordList();
         for (Button button : listOfButtons) charsForGrid.add(button.getText().toString());
         LinkedList<String> charList = new LinkedList<String>();
         while(!charsForGrid.isEmpty())
         {
         	if(charsForGrid.isEmpty())
         		break;
-        	if(charsForGrid.size() == 2)
-        	{
-        		break;
-        	}
             int index = random.nextInt(charsForGrid.size());
             if(index != 0)
             	index--;
@@ -154,13 +163,9 @@ LinkedList<String> charsForGrid = new LinkedList<String>();
 
         while(!charList.isEmpty())
         {
-            listOfButtons.get(i).setText(charList.pollFirst());
-            i++;
-        }
-
-        while(!charList.isEmpty())
-        {
-            listOfButtons.get(i).setText(charList.pollFirst());
+            Button b = listOfButtons.get(i);
+            b.setText(charList.pollFirst());
+            b.setBackgroundColor(0);
             i++;
         }
     }
@@ -197,17 +202,25 @@ LinkedList<String> charsForGrid = new LinkedList<String>();
 
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-				input = text.get(0);
+				input = text.get(0).toUpperCase();
 				voiceInput = (TextView) findViewById(R.id.input);
 				voiceInput.setText(input);
 				if(wordList.contains(word))
 	            {
-	                if(word.equals(input))
-	                {
-	                	addScore(10);
-	                	score.setText("Score: " + scores);
-	                	resetButtonText();
-	                }
+                    String wordToCheck = word;
+	                if(wordToCheck.equals(input))
+                    {
+	                	textImporter.removeWord(word);
+	                    resetButtonText();
+                        String integer = (String) numberOfWordsLeftToFind.getText();
+                        int i = Integer.parseInt(integer);
+                        i--;
+                        numberOfWordsLeftToFind.setText("" + i);
+                        word = "";
+                        addScore(10);
+                        score.setText("Score: " + scores);
+                        updateWordList();
+                    }
 	                else
 	                    Toast.makeText(getApplicationContext(), "Did you say that wrong?", Toast.LENGTH_SHORT);
 	            }
@@ -230,14 +243,13 @@ LinkedList<String> charsForGrid = new LinkedList<String>();
         {
             setGridButton(b);
         }
-        else if(b == clear_button)
-        {
-            clearButton();
-        }
 	}
-	
+
 	 private void clearButton() {
 	        word = "";
+            words.setText(word);
+            input = "";
+            voiceInput.setText("");
 	        while(!selectedButtons.isEmpty())
 	        {
 	            Button b = selectedButtons.pollLast();
@@ -279,4 +291,3 @@ LinkedList<String> charsForGrid = new LinkedList<String>();
 	    }
 
 }
-
