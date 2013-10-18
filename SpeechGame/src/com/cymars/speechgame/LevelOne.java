@@ -1,5 +1,5 @@
 package com.cymars.speechgame;
-
+//
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -260,12 +260,12 @@ public class LevelOne extends Activity implements View.OnClickListener {
             words.setText(word);
             input = "";
             voiceInput.setText("");
-	        while(!selectedButtons.isEmpty())
-	        {
-	            Button b = selectedButtons.pollLast();
-	            b.setBackgroundColor(1);
-	            b.setClickable(true);
-	        }
+            for(Button button: listOfButtons)
+            {
+            	button = selectedButtons.pollLast();
+	            button.setBackgroundColor(1);
+	            button.setClickable(true);
+            }
 	    }
 
 	    private void setGridButton(Button b) 
