@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Testing()
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment2.params=importer
+comment2.target=void\ testOne(TextImporter)
+comment3.params=importer
+comment3.target=void\ testGrid(TextImporter)
+comment4.params=importer
+comment4.target=void\ testNumberOfWord(TextImporter)
+numComments=5
