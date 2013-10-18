@@ -12,12 +12,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.speech.RecognizerIntent;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,55 +38,66 @@ public class LevelOne extends Activity implements View.OnClickListener {
     TextView wordsLeftList;
     
 	@Override	
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_level_one);
-		score = (TextView) findViewById(R.id.text_score);
-		btnSpeak= (Button) findViewById(R.id.speak_button);
-		Button clear_btn = (Button) findViewById(R.id.clear_button);
-		clear_btn.setOnClickListener(new Button.OnClickListener() {
-			public void onClick(View v) {
-                clearButton();
-			}
-		});
+		init();
 
-		numberOfWordsLeftToFind = (TextView)findViewById (R.id.words_left);
-        wordsLeftList = (TextView) findViewById(R.id.word_list);
 	        try
 	        {
 	            textImporter= new TextImporter("/assets/words.txt", getApplicationContext());
 	            numberOfWordsLeftToFind.setText("" + textImporter.getNumberOfWordsInList());
 	        }
 	        catch (IOException e) {
-	        	String error = e.getCause().toString();
+	        	 String error = e.getCause().toString();
 	             Toast.makeText(getApplicationContext(), "Invalid file", Toast.LENGTH_SHORT);
-	            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+	             e.printStackTrace(); 
 	        }
 
 		setGrid();
+	}
+    
+	private void init()
+	{
+		score = (TextView) findViewById(R.id.text_score);
+		numberOfWordsLeftToFind = (TextView)findViewById (R.id.words_left);
+        wordsLeftList = (TextView) findViewById(R.id.word_list);
+        
+		btnSpeak= (Button) findViewById(R.id.speak_button);
 		btnSpeak.setOnClickListener(new View.OnClickListener() {
-
 			@Override
-			public void onClick(View v) {
-
-				Intent intent = new Intent(
-						RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-				intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-
-				try {
-					startActivityForResult(intent, RESULT_SPEECH);
-				} catch (ActivityNotFoundException a) {
-					Toast t = Toast.makeText(getApplicationContext(),
-							"Ops! Your device doesn't support Speech to Text",
-							Toast.LENGTH_SHORT);
-					t.show();
-				}
+			public void onClick(View v) 
+			{
+				speakTouch();
 			}
 		});
-
+		
+		Button clear_btn = (Button) findViewById(R.id.clear_button);
+		clear_btn.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+                clearButton();
+			}
+		});
 	}
+	
+	private void speakTouch()
+	{
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
 
+		try 
+		{
+			startActivityForResult(intent, RESULT_SPEECH);
+		} 
+		catch (ActivityNotFoundException a) 
+		{
+			Toast t = Toast.makeText(getApplicationContext(),
+					"Ops! Your device doesn't support Speech to Text",
+					Toast.LENGTH_SHORT);
+			t.show();
+		}	
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -99,9 +107,7 @@ public class LevelOne extends Activity implements View.OnClickListener {
 
 	private void setGrid()
 	{
-
 		LinearLayout layout = (LinearLayout) findViewById(R.id.grid);
-
 		layout.setOrientation(LinearLayout.VERTICAL);
 		textImporter.makeCharArray(50);
         LinkedList<String> lettersForGrid = textImporter.getCharList();
@@ -193,13 +199,16 @@ public class LevelOne extends Activity implements View.OnClickListener {
     }
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{
 		super.onActivityResult(requestCode, resultCode, data);
 
-		switch (requestCode) {
-		case RESULT_SPEECH: {
-			if (resultCode == RESULT_OK && null != data) {
-
+		switch (requestCode) 
+		{
+		   case RESULT_SPEECH: 
+		   {
+		      if (resultCode == RESULT_OK && null != data) 
+		      {
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 				input = text.get(0).toUpperCase();
@@ -245,7 +254,8 @@ public class LevelOne extends Activity implements View.OnClickListener {
         }
 	}
 
-	 private void clearButton() {
+	 private void clearButton() 
+	 {
 	        word = "";
             words.setText(word);
             input = "";
@@ -258,7 +268,8 @@ public class LevelOne extends Activity implements View.OnClickListener {
 	        }
 	    }
 
-	    private void setGridButton(Button b) {
+	    private void setGridButton(Button b) 
+	    {
 	        Button last = null;
 	        if(!selectedButtons.contains(b))
 	        {
@@ -278,14 +289,17 @@ public class LevelOne extends Activity implements View.OnClickListener {
 	        	String replacement = "";
 	        	for(int i= 0; i < word.length()-1; i++)
 	        		replacement += word.charAt(i);
-	            word = replacement;
+	            
+	        	word = replacement;
 	            words.setText(word);
 	            selectedButtons.remove(b);
 	            b.setBackgroundColor(1);
 	            last = selectedButtons.peekLast();
-	            if(last!=null){
-	            last.setBackgroundColor(Color.BLUE);
-	            last.setClickable(true);
+	            
+	            if(last!=null)
+	            {
+	               last.setBackgroundColor(Color.BLUE);
+	               last.setClickable(true);
 	            }
 	        }
 	    }
