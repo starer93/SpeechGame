@@ -25,6 +25,18 @@ public class MainActivity extends Activity {
 	      }
 
 	    });
+	    
+	    Button levelThree = (Button) findViewById(R.id.button_levelThree);
+	    levelThree.setOnClickListener(new View.OnClickListener() {
+
+		      @Override
+		      public void onClick(View view) {
+		        Intent intent = new Intent(MainActivity.this, LevelThree.class);
+		        startActivity(intent);
+		      }
+
+		    });
+	    
 	  }
 	
 
@@ -34,11 +46,6 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	public boolean test1() {
-//		TextView view = (TextView) findViewById(R.id.textHello);
-		//String text = view.toString();
-		return true;
-	}
 	
 
 }

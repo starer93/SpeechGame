@@ -24,7 +24,8 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000e;
+        public static final int action_settings=0x7f08000f;
+        public static final int button_levelThree=0x7f08000e;
         public static final int button_start=0x7f08000c;
         public static final int clear_button=0x7f080002;
         public static final int grid=0x7f080000;
@@ -42,13 +43,15 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_level_one=0x7f030000;
-        public static final int activity_level_two=0x7f030001;
-        public static final int activity_main=0x7f030002;
+        public static final int activity_level_three=0x7f030001;
+        public static final int activity_level_two=0x7f030002;
+        public static final int activity_main=0x7f030003;
     }
     public static final class menu {
         public static final int level_one=0x7f070000;
-        public static final int level_two=0x7f070001;
-        public static final int main=0x7f070002;
+        public static final int level_three=0x7f070001;
+        public static final int level_two=0x7f070002;
+        public static final int main=0x7f070003;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
@@ -62,6 +65,7 @@ public final class R {
         public static final int submit=0x7f050006;
         public static final int text_input=0x7f05000a;
         public static final int title_activity_level_one=0x7f050005;
+        public static final int title_activity_level_three=0x7f05000d;
         public static final int title_activity_level_two=0x7f05000c;
         public static final int voice_input=0x7f050009;
     }

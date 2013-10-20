@@ -26,4 +26,14 @@
         android:layout_marginTop="43dp"
         android:text="@string/hello" />
 
+    <Button
+        android:id="@+id/button_levelThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button_start"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textHello"
+        android:layout_marginBottom="42dp"
+        android:text="Button" />
+
 </RelativeLayout>

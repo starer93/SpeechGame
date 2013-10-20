@@ -14,5 +14,6 @@
     <string name="text_input">Text input</string>
     <string name="score">Score: </string>
     <string name="title_activity_level_two">LevelTwo</string>
+    <string name="title_activity_level_three">LevelThree</string>
 
 </resources>
