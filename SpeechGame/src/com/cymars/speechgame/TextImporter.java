@@ -1,7 +1,8 @@
 package com.cymars.speechgame;
-
+ 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -13,7 +14,9 @@ import android.content.res.AssetManager;
  * User: Runaes
  * Date: 19/09/13
  * Time: 5:26 AM
- * To change this template use File | Settings | File Templates.
+ * To change this template use File | Settings | File 
+
+Templates.
  */
 public class TextImporter {
     LinkedList<String> wordList =  new LinkedList<String>();
@@ -24,14 +27,16 @@ public class TextImporter {
     int wordsInList;
     Context context;
 
-    public TextImporter(String directory, Context context) throws IOException {
-    	this.context = context;
+    public TextImporter(String directory, Context 
+
+context) throws IOException {
+            this.context = context;
         WordList (directory);
     }
     
     public void removeWord(String word)
     {
-    	wordsInGrid.remove(word);
+            wordsInGrid.remove(word);
     }
 
     private void WordList (String directory) throws IOException {
@@ -41,7 +46,7 @@ public class TextImporter {
         String         line;
 
         AssetManager am = context.getAssets();
-		 fis = am.open("words.txt");
+                 fis = am.open(directory);
         br = new BufferedReader(new InputStreamReader(fis, Charset.forName("UTF-8")));
         while ((line = br.readLine()) != null) {
             line = line.toUpperCase();
@@ -52,8 +57,23 @@ public class TextImporter {
         fis = null;
         wordsInList = wordList.size();
     }
+    
+    public void makeCharArrayInLine()
+    {
+    	for(String word:wordList)
+    	{
+    		for(int i = 0; i < word.length(); i++)
+    	    {
+    			charList.add(word.charAt(i) +"");
+    	    }
+    	}
+    	Collections.shuffle(charList);
+    	 
+    }
+    
 
-    public void makeCharArray(int lettersToGet) {
+   public void makeRandomisedCharArray(int lettersToGet) 
+   {
         LinkedList<String>wordToMakeArray = new LinkedList<String>();
         Random random = new Random();
         boolean open = true;
@@ -67,17 +87,18 @@ public class TextImporter {
                 wordsInGrid.add(leftOverWord);
             }
             String word = "";
-            if(!wordList.isEmpty())
+            if(wordList.size() != 0)
                 word = wordList.pollFirst();
             else
             {
-				for(int j = 0; j < (lettersToGet - i); j ++)
-				{
-					int x = random.nextInt(25);
-					char y = (char) ((int)'A' + x);
-                        word += y;
-				}
-				i = lettersToGet + 1;
+                      for(int j = 0; j < (lettersToGet - i); j ++)
+                      {
+                             int x = random.nextInt(25);
+                             char y = (char) ((int)'A' + x);
+                             word += y;
+                       }
+                       i = lettersToGet + 1;
+                       open = false;
             }
             for(int j = 0; j < word.length(); j++, i++)
             {
@@ -89,28 +110,25 @@ public class TextImporter {
                     {
                         leftOverChars += word.charAt(j);
                     }
-                    open = false;
+        
                     break;
                 }
             }
             i--;
             if(open)
-            wordsInGrid.add(word);
+            	wordsInGrid.add(word);
             word = "";
-
+ 
         }
-        for(int i = 0; i < wordToMakeArray.size(); i++)
-           
-            charList.add(String.valueOf(wordToMakeArray.get(i)));
-
-        
+        for(int i = 0; i < wordToMakeArray.size(); i++)           
+            charList.add(String.valueOf(wordToMakeArray.get(i)));  
     }
-
+// this is for the grid
     public LinkedList<String> getCharList()
     {
         return charList;
     }
-
+// this is for the words left to inserted 
     public LinkedList<String > getWordsInGrid()
     {
         return wordsInGrid;

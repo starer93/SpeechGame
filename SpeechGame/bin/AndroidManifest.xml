@@ -34,6 +34,18 @@
             android:name="com.cymars.speechgame.LevelThree"
             android:label="@string/title_activity_level_three" >
         </activity>
+        <activity
+            android:name="com.cymars.speechgame.Tutorial"
+            android:label="@string/title_activity_tutorial" >
+        </activity>
+        <activity
+            android:name="com.cymars.speechgame.LevelSelectActivity"
+            android:label="@string/title_activity_level_select" >
+        </activity>
+        <activity
+            android:name="com.cymars.speechgame.LevelFour"
+            android:label="@string/title_activity_level_four" >
+        </activity>
     </application>
 
 </manifest>

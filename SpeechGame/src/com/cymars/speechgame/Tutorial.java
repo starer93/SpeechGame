@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Random;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.speech.RecognizerIntent;
 import android.view.Menu;
@@ -22,47 +23,37 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LevelTwo extends Activity implements OnClickListener {
+public class Tutorial extends Activity implements OnClickListener{
 
+	private final String[][] examples = {{"E","A","S","Y"},
+	                                     {"T","J","K","M"},
+	                                     {"S","A","O","E"},
+	                                     {"P","A","V","I"}};
 	protected static final int RESULT_SPEECH = 1;
-
-    private LinkedList<String> wordList = new LinkedList<String>();
     private LinkedList<Button> listOfButtons = new LinkedList<Button>();
     private LinkedList<Button> selectedButtons = new LinkedList<Button>();
     private TextView voiceInput, score, wordsLeftList, words, numberOfWordsLeftToFind;
-	
     private int scores = 0;
 	private String input,word;
-	private Random random = new Random();
-    private TextImporter textImporter;
 	
-    @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_level_one);
 		init();
-		setTextImporter();
 		setGrid();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.level_two, menu);
+		getMenuInflater().inflate(R.menu.tutorial, menu);
 		return true;
 	}
 	
 	private void init()
 	{
-		score = (TextView) findViewById(R.id.text_score);
-		numberOfWordsLeftToFind = (TextView)findViewById (R.id.num_of_words_left);
-        wordsLeftList = (TextView) findViewById(R.id.left_word_list);
-        voiceInput = (TextView) findViewById(R.id.input);
-        words = (TextView) findViewById(R.id.words);
-        
-        input = "";
-        word = "";
-        
+		setText();
         Button btnSpeak = (Button) findViewById(R.id.speak_button);
         btnSpeak.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -80,24 +71,21 @@ public class LevelTwo extends Activity implements OnClickListener {
 		});
 	}
 	
-	private void setTextImporter()
+	private void setText()
 	{
-        try
-        {
-            textImporter= new TextImporter("words_level_two.txt", getApplicationContext());
-            numberOfWordsLeftToFind.setText("" + textImporter.getNumberOfWordsInList());
-        }
-        catch (IOException e) {
-             Toast.makeText(getApplicationContext(), "Invalid file", Toast.LENGTH_SHORT);
-             e.printStackTrace(); 
-        }
+		score = (TextView) findViewById(R.id.text_score);
+		numberOfWordsLeftToFind = (TextView)findViewById (R.id.num_of_words_left);
+        wordsLeftList = (TextView) findViewById(R.id.left_word_list);
+        voiceInput = (TextView) findViewById(R.id.input);
+        words = (TextView) findViewById(R.id.words); 
+        input = "";
+        word = "";
 	}
-	
+    
 	private void speakTouch()
 	{
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-
 		try 
 		{
 			startActivityForResult(intent, RESULT_SPEECH);
@@ -115,18 +103,16 @@ public class LevelTwo extends Activity implements OnClickListener {
 	{
 		LinearLayout layout = (LinearLayout) findViewById(R.id.grid);
 		layout.setOrientation(LinearLayout.VERTICAL);
-		textImporter.makeCharArrayInLine();
-        LinkedList<String> lettersForGrid = textImporter.getCharList();
-		for(int i = 0; i < 5; i ++)
+		for(int i = 0; i < 4; i ++)
 		{
 			LinearLayout row = new LinearLayout(this);
 			row.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 					LayoutParams.WRAP_CONTENT));
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < 4; j++) {
 				Button btnTag = new Button(this);
 				btnTag.setLayoutParams(new LayoutParams(
 			    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-				btnTag.setText(lettersForGrid.pollFirst());
+				btnTag.setText(examples[j][i]);
 				btnTag.setId(j + 1 + i);
 				btnTag.setOnClickListener(this);
 				row.addView(btnTag);
@@ -135,23 +121,6 @@ public class LevelTwo extends Activity implements OnClickListener {
 			layout.addView(row);
 		}
 	}
-	
-    private void updateWordList()
-    {
-        String wordsForList = "";
-        int i = 0;
-        for(String leftWord: wordList)
-        {  
-        	wordsForList += leftWord + "  ";
-            i++;
-            if(i == 7)
-            {
-                wordsForList += "\n";
-                i = 0;
-            }
-        }
-        wordsLeftList.setText(wordsForList);
-    }
     
     private void writeFileToInternalStorage() {
     	  String eol = System.getProperty("line.separator");
@@ -191,26 +160,16 @@ public class LevelTwo extends Activity implements OnClickListener {
 		      {
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-				
-				if(text.get(0) !=null)
-			    {
-					input = text.get(0).toUpperCase();
-				}
-				
 				voiceInput.setText(input);
-				if(wordList.contains(word))
+				if(word.equals("EASY"))
 	            {
                     String wordToCheck = word;
 	                if(wordToCheck.equals(input))
                     {
-	                	writeFileToInternalStorage();
-	                	textImporter.removeWord(word);
-                        String integer = (String) numberOfWordsLeftToFind.getText();
-                        int i = Integer.parseInt(integer);
-                        i--;
-                        numberOfWordsLeftToFind.setText("" + i);
+                        numberOfWordsLeftToFind.setText("0");
                         addScore(10);
                         score.setText("Score: " + scores);
+                        clearText();
                     }
 	                else
 	                    Toast.makeText(getApplicationContext(), "Did you say that wrong?", Toast.LENGTH_SHORT);
@@ -290,5 +249,4 @@ public class LevelTwo extends Activity implements OnClickListener {
 	            }
 	        }
 	    }
-
 }

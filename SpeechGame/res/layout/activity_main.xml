@@ -8,32 +8,48 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/button_start"
+    <ImageView
+        android:id="@+id/image_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="94dp"
-        android:text="@string/new_game"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="46dp"
+        android:layout_toLeftOf="@+id/button_start"
+        android:visibility= "invisible"
+        android:src="@drawable/achievement" />
 
     <TextView
-        android:id="@+id/textHello"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button_start"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="43dp"
-        android:text="@string/hello" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:text="TextView" />
 
     <Button
-        android:id="@+id/button_levelThree"
-        android:layout_width="wrap_content"
+        android:id="@+id/button_start"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/new_game" />
+
+    <Button
+        android:id="@+id/button_tut"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/button_start"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/textHello"
-        android:layout_marginBottom="42dp"
-        android:text="Button" />
+        android:layout_below="@+id/button_start"
+        android:text="Tutorial" />
+
+    <Button
+        android:id="@+id/button_level_select"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_tut"
+        android:layout_centerHorizontal="true"
+        android:text="Level Select" />
 
 </RelativeLayout>

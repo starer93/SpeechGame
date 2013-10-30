@@ -1,4 +1,3 @@
-dinosaur
 tomato
 bicycle
 potato

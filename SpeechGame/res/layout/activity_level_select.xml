@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".LevelSelectActivity" >
+
+     <Button
+         android:id="@+id/button_levelOne"
+         android:layout_width="200dp"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="30dp"
+         android:layout_centerHorizontal="true"
+         android:text="LEVEL ONE" />
+
+     <Button
+         android:id="@+id/button_levelTwo"
+         android:layout_width="200dp"
+         android:layout_height="wrap_content"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="80dp"
+         android:text="LEVEL TWO" />
+
+     <Button
+         android:id="@+id/button_levelThree"
+         android:layout_width="200dp"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="130dp"
+         android:layout_centerHorizontal="true"
+         android:text="LEVEL THREE" />
+     
+     <Button
+         android:id="@+id/button_levelFour"
+         android:layout_width="200dp"
+         android:layout_height="wrap_content"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="180dp"
+         android:text="LEVEL FOUR" />
+
+</RelativeLayout>

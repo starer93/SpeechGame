@@ -10,10 +10,13 @@
     <string name="submit">Submit</string>
     <string name="clear">Clear</string>
     <string name="num_word">Number of Words Left:</string>
-    <string name="voice_input">Voice input</string>
-    <string name="text_input">Text input</string>
+    <string name="voice_input">Voice Input: </string>
+    <string name="text_input">Text Input:  </string>
     <string name="score">Score: </string>
     <string name="title_activity_level_two">LevelTwo</string>
     <string name="title_activity_level_three">LevelThree</string>
+    <string name="title_activity_tutorial">Tutorial</string>
+    <string name="title_activity_level_select">LevelSelectActivity</string>
+    <string name="title_activity_level_four">LevelFour</string>
 
 </resources>

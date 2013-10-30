@@ -26,21 +26,18 @@ import android.widget.Toast;
 public class LevelThree extends Activity implements OnClickListener{
 
 	protected static final int RESULT_SPEECH = 1;
+	private static final String RED = "red";
+	private static final String GREEN= "green";
 
-    private Button btnSpeak;
     private LinkedList<String> wordList = new LinkedList<String>();
-    private TextView voiceInput;
-	private TextView score;
-	private int scores = 0;
-	private String input;
-    private ArrayList<Button> listOfButtons = new ArrayList<Button>();
-    private LinkedList<Button> selectedButtons = new LinkedList<Button>();
-    private TextView numberOfWordsLeftToFind;
-	TextView words;
-	String word = "";
-	Random random = new Random();
-    TextImporter textImporter;
-    TextView wordsLeftList;
+    private LinkedList<Button> listOfButtons = new LinkedList<Button>();
+    private LinkedList<Button>  selectedButtons = new LinkedList<Button> ();
+    private TextView voiceInput, score, wordsLeftList, words, numberOfWordsLeftToFind;
+	
+    private int scores = 0;
+	private String input,word;
+	private Random random = new Random();
+    private TextImporter textImporter;
     Timer timer = new Timer ();
     int first = 0;
 	int second = 1;
@@ -50,36 +47,29 @@ public class LevelThree extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_level_one);
 		init();
-
-        try
-        {
-            textImporter= new TextImporter("/assets/words.txt", getApplicationContext());
-            numberOfWordsLeftToFind.setText("" + textImporter.getNumberOfWordsInList());
-        }
-        catch (IOException e) {
-        	 String error = e.getCause().toString();
-             Toast.makeText(getApplicationContext(), "Invalid file", Toast.LENGTH_SHORT);
-             e.printStackTrace(); 
-        }
-
-	   setGrid();
+		setTextImporter();
+	    setGrid();
 	}
 	
 	private void init()
 	{
 		score = (TextView) findViewById(R.id.text_score);
-		numberOfWordsLeftToFind = (TextView)findViewById (R.id.words_left);
-        wordsLeftList = (TextView) findViewById(R.id.word_list);
+		numberOfWordsLeftToFind = (TextView)findViewById (R.id.num_of_words_left);
+        wordsLeftList = (TextView) findViewById(R.id.left_word_list);
+        voiceInput = (TextView) findViewById(R.id.input);
         words = (TextView) findViewById(R.id.words);
-		Button btnSpeak = (Button) findViewById(R.id.speak_button);
-		btnSpeak.setOnClickListener(new View.OnClickListener() {
+        
+        input = "";
+        word = "";
+        Button btnSpeak = (Button) findViewById(R.id.speak_button);
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) 
 			{
 				speakTouch();
 			}
 		});
-		
+        
 		Button clear_btn = (Button) findViewById(R.id.clear_button);
 		clear_btn.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
@@ -88,22 +78,35 @@ public class LevelThree extends Activity implements OnClickListener{
 		});
 	}
 	
+	private void setTextImporter()
+	{
+        try
+        {
+            textImporter= new TextImporter("words.txt", getApplicationContext());
+            numberOfWordsLeftToFind.setText("" + textImporter.getNumberOfWordsInList());
+        }
+        catch (IOException e) {
+        	 String error = e.getCause().toString();
+             Toast.makeText(getApplicationContext(), "Invalid file", Toast.LENGTH_SHORT);
+             e.printStackTrace(); 
+        }
+	}
+	
 	private void getRandom()
 	{ 
-		
 		Random random = new Random();
 		while(listOfButtons.get(first).getHighlightColor() == Color.WHITE)
 		{
-			listOfButtons.get(first).setBackgroundColor(Color.GREEN);
-			listOfButtons.get(first).setHighlightColor(Color.GREEN);
+			listOfButtons.get(first).setTag(GREEN);
+			listOfButtons.get(first).setTextColor(Color.GREEN);
 			first = random.nextInt(listOfButtons.size());
 			break;
 		}
 		while(listOfButtons.get(first).getHighlightColor() == Color.WHITE)
 		{
-			listOfButtons.get(first).setBackgroundColor(Color.RED);
-			listOfButtons.get(first).setHighlightColor(Color.RED);
-			first = random.nextInt(listOfButtons.size());
+			listOfButtons.get(first).setTag(RED);
+			listOfButtons.get(first).setTextColor(Color.RED);
+			first = random.nextInt(listOfButtons.size());;
 			break;
 		}	
 	}
@@ -142,9 +145,9 @@ public class LevelThree extends Activity implements OnClickListener{
 	{
 		LinearLayout layout = (LinearLayout) findViewById(R.id.grid);
 		layout.setOrientation(LinearLayout.VERTICAL);
-		textImporter.makeCharArray(50);
+		textImporter.makeRandomisedCharArray(100);
         LinkedList<String> lettersForGrid = textImporter.getCharList();
-		for(int i = 0; i < 5; i ++)
+		for(int i = 0; i < 10; i ++)
 		{
 			LinearLayout row = new LinearLayout(this);
 			row.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -168,13 +171,13 @@ public class LevelThree extends Activity implements OnClickListener{
 
     private void updateWordList()
     {
-        String wordsForList = "\t";
+        String wordsForList = "";
         int i = 0;
         for(String word: wordList)
         {
             wordsForList += word + " ";
             i++;
-            if(i == 2)
+            if(i == 7)
             {
                 wordsForList += "\n";
                 i = 0;
@@ -212,7 +215,7 @@ public class LevelThree extends Activity implements OnClickListener{
     
     private void resetButtonText()
     {
-        textImporter.makeCharArray(selectedButtons.size());
+        textImporter.makeRandomisedCharArray(selectedButtons.size());
         LinkedList<String> newLetters = textImporter.getCharList();
         for(Button b:selectedButtons)
         {
@@ -227,9 +230,22 @@ public class LevelThree extends Activity implements OnClickListener{
         randomiseGrid();
     }
     
-    public void addScore(int value)
+    public void addScore()
     {
-       scores += value;
+    	scores += 50;
+    	for(int i = 0; i < selectedButtons.size(); i++)
+    	{			
+    		if(selectedButtons.get(i).getTag() == RED)
+    		{
+    			scores -=5;
+    		}
+    		else if(selectedButtons.get(i).getTag() == GREEN)
+    		{
+    			scores += 10;
+    		}		
+    	}
+       score.setText("Score: " + scores);
+       
     }
 
 	@Override
@@ -253,16 +269,16 @@ public class LevelThree extends Activity implements OnClickListener{
                     String wordToCheck = word;
 	                if(wordToCheck.equals(input))
                     {
+                        addScore();
 	                	textImporter.removeWord(word);
 	                    resetButtonText();
                         String integer = (String) numberOfWordsLeftToFind.getText();
                         int i = Integer.parseInt(integer);
                         i--;
                         numberOfWordsLeftToFind.setText("" + i);
-                        word = "";
-                        addScore(10);
-                        score.setText("Score: " + scores);
+                        word = "";	
                         updateWordList();
+                        clearText();
                     }
 	                else
 	                    Toast.makeText(getApplicationContext(), "Did you say that wrong?", Toast.LENGTH_SHORT);
@@ -288,18 +304,25 @@ public class LevelThree extends Activity implements OnClickListener{
         }
         getRandom();
 	}
+	
+	private void clearText()
+	{
+		word = "";
+        words.setText(word);
+        input = "";
+        voiceInput.setText("");
+	}
 
 	 private void clearButton() 
 	 {
-	        word = "";
-            words.setText(word);
-            input = "";
-            voiceInput.setText("");
+		 clearText();
             selectedButtons.clear();
             for(Button button: listOfButtons)
             {
 	            button.setBackgroundColor(Color.WHITE);
+	            button.setTextColor(Color.BLACK);
 	            button.setClickable(true);
+	            button.setHighlightColor(Color.WHITE);
             }
 	    }
 
