@@ -38,7 +38,6 @@ public class LevelThree extends Activity implements OnClickListener{
 	private String input,word;
 	private Random random = new Random();
     private TextImporter textImporter;
-    Timer timer = new Timer ();
     int first = 0;
 	int second = 1;
     

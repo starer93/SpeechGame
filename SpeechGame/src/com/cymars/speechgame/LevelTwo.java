@@ -1,8 +1,12 @@
 package com.cymars.speechgame;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -11,6 +15,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.speech.RecognizerIntent;
 import android.view.Menu;
@@ -31,6 +36,7 @@ public class LevelTwo extends Activity implements OnClickListener {
     private LinkedList<Button> selectedButtons = new LinkedList<Button>();
     private TextView voiceInput, score, wordsLeftList, words, numberOfWordsLeftToFind;
 	
+    private GridCreator creator;
     private int scores = 0;
 	private String input,word;
 	private Random random = new Random();
@@ -82,15 +88,27 @@ public class LevelTwo extends Activity implements OnClickListener {
 	
 	private void setTextImporter()
 	{
-        try
-        {
-            textImporter= new TextImporter("words_level_two.txt", getApplicationContext());
-            numberOfWordsLeftToFind.setText("" + textImporter.getNumberOfWordsInList());
-        }
-        catch (IOException e) {
-             Toast.makeText(getApplicationContext(), "Invalid file", Toast.LENGTH_SHORT);
-             e.printStackTrace(); 
-        }
+		InputStream    fis;
+        BufferedReader br;
+        String         line;
+        
+        AssetManager am = this.getAssets();
+        try {
+			fis = am.open("words.txt");
+			br = new BufferedReader(new InputStreamReader(fis, Charset.forName("UTF-8")));
+	        while ((line = br.readLine()) != null) 
+	        {
+	            line = line.toUpperCase();
+	            wordList.add(line);
+	        }
+	        br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        creator = new GridCreator(wordList, 5, 10);
+        
 	}
 	
 	private void speakTouch()
@@ -113,10 +131,11 @@ public class LevelTwo extends Activity implements OnClickListener {
 
 	private void setGrid()
 	{
+		String s =  creator.toString();
 		LinearLayout layout = (LinearLayout) findViewById(R.id.grid);
 		layout.setOrientation(LinearLayout.VERTICAL);
-		textImporter.makeCharArrayInLine();
-        LinkedList<String> lettersForGrid = textImporter.getCharList();
+        String[] chars = s.split("");
+        int k = 1;
 		for(int i = 0; i < 5; i ++)
 		{
 			LinearLayout row = new LinearLayout(this);
@@ -126,11 +145,12 @@ public class LevelTwo extends Activity implements OnClickListener {
 				Button btnTag = new Button(this);
 				btnTag.setLayoutParams(new LayoutParams(
 			    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-				btnTag.setText(lettersForGrid.pollFirst());
+				btnTag.setText(chars[k]);
 				btnTag.setId(j + 1 + i);
 				btnTag.setOnClickListener(this);
 				row.addView(btnTag);
                 listOfButtons.add(btnTag);
+                k++;
 			}
 			layout.addView(row);
 		}

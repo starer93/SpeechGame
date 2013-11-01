@@ -27,10 +27,8 @@ public class TextImporter {
     int wordsInList;
     Context context;
 
-    public TextImporter(String directory, Context 
-
-context) throws IOException {
-            this.context = context;
+    public TextImporter(String directory, Context context) throws IOException {
+        this.context = context;
         WordList (directory);
     }
     

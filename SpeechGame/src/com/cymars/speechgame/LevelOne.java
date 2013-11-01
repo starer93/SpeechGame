@@ -342,7 +342,7 @@ public class LevelOne extends Activity implements View.OnClickListener {
         voiceInput.setText("");
 	}
 
-	 private void clearButton() 
+	private void clearButton() 
 	 {  
 		 clearText();
             for(Button button: listOfButtons)
@@ -353,7 +353,7 @@ public class LevelOne extends Activity implements View.OnClickListener {
             selectedButtons.clear();
 	    }
 
-	    private void setGridButton(Button b) 
+	private void setGridButton(Button b) 
 	    {
 	        Button last = null;
 	        if(!selectedButtons.contains(b))
