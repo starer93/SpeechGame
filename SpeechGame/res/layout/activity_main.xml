@@ -8,26 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <ImageView
-        android:id="@+id/image_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="18dp"
-        android:layout_marginTop="46dp"
-        android:layout_toLeftOf="@+id/button_start"
-        android:visibility= "invisible"
-        android:src="@drawable/achievement" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:text="TextView" />
-
     <Button
         android:id="@+id/button_start"
         android:layout_width="200dp"
@@ -51,5 +31,13 @@
         android:layout_below="@+id/button_tut"
         android:layout_centerHorizontal="true"
         android:text="Level Select" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="17dp"
+        android:src="@drawable/achievement" />
 
 </RelativeLayout>

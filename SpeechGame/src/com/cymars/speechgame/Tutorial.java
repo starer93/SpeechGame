@@ -30,11 +30,15 @@ public class Tutorial extends Activity implements OnClickListener{
 	                                     {"S","A","O","E"},
 	                                     {"P","A","V","I"}};
 	protected static final int RESULT_SPEECH = 1;
+	private boolean showed = false;
     private LinkedList<Button> listOfButtons = new LinkedList<Button>();
     private LinkedList<Button> selectedButtons = new LinkedList<Button>();
-    private TextView voiceInput, score, wordsLeftList, words, numberOfWordsLeftToFind;
+    private TextView voiceInput, score, wordsLeftList, words, numberOfWordsLeftToFind, hint;
     private int scores = 0;
 	private String input,word;
+	private static final String FIRST_HINT = "Press the buttons and find the words from the list to complete the game";
+	private static final String SECOND_HINT = "Press the submit button at the bottom, say the word.";
+	private static final String LAST_HINT = "Now, its time to skip the tutorial and play the game.";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +77,12 @@ public class Tutorial extends Activity implements OnClickListener{
 	
 	private void setText()
 	{
+		hint = (TextView) findViewById(R.id.hint);
+		hint.setText( FIRST_HINT);
 		score = (TextView) findViewById(R.id.text_score);
 		numberOfWordsLeftToFind = (TextView)findViewById (R.id.num_of_words_left);
         wordsLeftList = (TextView) findViewById(R.id.left_word_list);
+        wordsLeftList.setText("EASY");
         voiceInput = (TextView) findViewById(R.id.input);
         words = (TextView) findViewById(R.id.words); 
         input = "";
@@ -115,33 +122,14 @@ public class Tutorial extends Activity implements OnClickListener{
 				btnTag.setText(examples[j][i]);
 				btnTag.setId(j + 1 + i);
 				btnTag.setOnClickListener(this);
+				btnTag.setBackgroundColor(0);
 				row.addView(btnTag);
                 listOfButtons.add(btnTag);
 			}
 			layout.addView(row);
 		}
 	}
-    
-    private void writeFileToInternalStorage() {
-    	  String eol = System.getProperty("line.separator");
-    	  BufferedWriter writer = null;
-    	  try {
-    	    writer = 
-    	      new BufferedWriter(new OutputStreamWriter(openFileOutput("myfile", MODE_WORLD_WRITEABLE)));
-    	    writer.write("You got Achievement 1!" + eol);
-    	  } catch (Exception e) {
-    	      e.printStackTrace();
-    	  } finally {
-    	    if (writer != null) {
-    	    try {
-    	      writer.close();
-    	    } catch (IOException e) {
-    	      e.printStackTrace();
-    	    }
-    	    }
-    	  }
-    	} 
-    
+       
     private void addScore(int value)
     {
        scores += value;
@@ -160,12 +148,18 @@ public class Tutorial extends Activity implements OnClickListener{
 		      {
 				ArrayList<String> text = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				if(text.get(0) !=null)
+			    {
+					input = text.get(0).toUpperCase();
+				}
+				
 				voiceInput.setText(input);
 				if(word.equals("EASY"))
 	            {
                     String wordToCheck = word;
 	                if(wordToCheck.equals(input))
-                    {
+                    {    
+	                	hint.setText(LAST_HINT);
                         numberOfWordsLeftToFind.setText("0");
                         addScore(10);
                         score.setText("Score: " + scores);
@@ -187,6 +181,11 @@ public class Tutorial extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
+		if(showed == false)
+		{
+			hint.setText(SECOND_HINT);
+			showed = true;
+		}
 		words = (TextView) findViewById(R.id.words);
         Button b = (Button) v;
         if(listOfButtons.contains(b))
@@ -208,7 +207,7 @@ public class Tutorial extends Activity implements OnClickListener{
 		 clearText();
             for(Button button: listOfButtons)
             {
-	            button.setBackgroundColor(Color.WHITE);
+	            button.setBackgroundColor(0);
 	            button.setClickable(true);
             }
             selectedButtons.clear();

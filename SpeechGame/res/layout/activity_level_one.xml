@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:background="@drawable/border">
     </LinearLayout>
 
     <LinearLayout
@@ -104,18 +105,35 @@
         android:text="@string/num_word" />
 
     <TextView
-        android:id="@+id/left_word_list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:text="left word list" />
-
-    <TextView
         android:id="@+id/num_of_words_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout3"
         android:layout_toRightOf="@+id/textView1"
-        android:text="20" />
+        android:text="" />
+
+    <TextView
+        android:id="@+id/hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/grid"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/left_word_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_alignLeft="@+id/textView4"
+        android:background="@drawable/border"
+        android:text="left word lists" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/num_of_words_left"
+        android:layout_alignLeft="@+id/textView1"
+        android:text="List of Words:" />
 
 </RelativeLayout>

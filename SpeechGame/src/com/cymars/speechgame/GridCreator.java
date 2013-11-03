@@ -18,8 +18,8 @@ public class GridCreator {
 									  'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
 									  'U', 'V', 'W', 'X', 'Y', 'Z' };
 	
-	public GridCreator(LinkedList<String> wordList, int height, int lenght) {
-		data = new char[height][lenght];   // size X size grid
+	public GridCreator(LinkedList<String> wordList, int size) {
+		data = new char[size][size];   // size X size grid
 		
 		for(int i=0; i<data.length; i++)  //fill the grid with space 
 			for(int j=0; j<data.length; j++)
@@ -50,7 +50,6 @@ public class GridCreator {
 			{
 				ret.append(dataF[i][j]);
 			}
-			ret.append("\n");
 		}
 		
 		return ret.toString();
@@ -69,12 +68,12 @@ public class GridCreator {
 	private boolean add(String word, char[][] puzzle) {
 		word = word.toUpperCase(); // convert every letter to upper case
 		
-		char[][] origPuzzle = new char[puzzle.length][puzzle[0].length];
+		char[][] origPuzzle = new char[puzzle.length][puzzle.length];
 		for(int i=0; i<puzzle.length; i++)
 			for(int j=0; j<puzzle[0].length; j++)
 				origPuzzle[i][j] = puzzle[i][j];
 		
-		for(int tries=0; tries<100; tries++) 
+		for(int tries=0; tries<10000; tries++) 
 		{  //tries needs to modify
 			Random r = new Random();
 			
@@ -83,7 +82,7 @@ public class GridCreator {
 			
 			int direction   = r.nextInt(2); // 0 = Horizontal, 1 = Vertical
 			
-			int row			= r.nextInt(puzzle.length - word.length() - 1);
+			int row			= r.nextInt(puzzle.length - word.length());
 			int col			= r.nextInt(puzzle.length - word.length());
 			
 			int i=0;

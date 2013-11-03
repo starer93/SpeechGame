@@ -34,7 +34,7 @@ public class TextImporter {
     
     public void removeWord(String word)
     {
-            wordsInGrid.remove(word);
+          wordsInGrid.remove(word);
     }
 
     private void WordList (String directory) throws IOException {

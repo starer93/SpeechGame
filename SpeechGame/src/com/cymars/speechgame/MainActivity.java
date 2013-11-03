@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -22,8 +23,12 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		setButtons();
 		readFileFromInternalStorage();
-	    TextView title = (TextView) findViewById(R.id.title);
-	    title.setText(readfromfile);
+	    if(readfromfile.contains("2"))
+	    {
+	    
+	    	ImageView levelTwo = (ImageView) findViewById(R.id.imageView2);
+			levelTwo.setImageResource(R.drawable.achievement_cup);
+		}
 	}
 
 	
@@ -62,7 +67,8 @@ public class MainActivity extends Activity {
 		    });
 	  }
 	
-	private void readFileFromInternalStorage() {
+	private void readFileFromInternalStorage() 
+	{
 		  String eol = System.getProperty("line.separator");
 		  BufferedReader input = null;
 		  try {
@@ -84,7 +90,7 @@ public class MainActivity extends Activity {
 		    }
 		    }
 		  }
-		} 
+	} 
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

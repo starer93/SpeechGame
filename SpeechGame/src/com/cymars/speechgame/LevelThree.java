@@ -11,15 +11,20 @@ import java.util.TimerTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.speech.RecognizerIntent;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -128,7 +133,7 @@ public class LevelThree extends Activity implements OnClickListener{
 		}
 		for(Button button: listOfButtons)
 		{
-			button.setBackgroundColor(Color.WHITE);
+			button.setBackgroundColor(0);
 			button.setHighlightColor(Color.WHITE);
 		}
 		
@@ -158,7 +163,6 @@ public class LevelThree extends Activity implements OnClickListener{
 				btnTag.setText(lettersForGrid.pollFirst());
 				btnTag.setId(j + 1 + i);
 				btnTag.setOnClickListener(this);
-				btnTag.setHighlightColor(Color.WHITE);
 				row.addView(btnTag);
                 listOfButtons.add(btnTag);
 			}
@@ -246,6 +250,54 @@ public class LevelThree extends Activity implements OnClickListener{
        score.setText("Score: " + scores);
        
     }
+    
+    private void isComplete(int left)
+	{
+		if(left == 0)
+		{
+		 try { 
+			// We need to get the instance of the LayoutInflater 
+			LayoutInflater inflater = (LayoutInflater) LevelThree.this 
+			.getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
+			View layout = inflater.inflate(R.layout.popupwindow,(ViewGroup)
+
+			findViewById(R.id.popup_element)); 
+			PopupWindow pwindo = new PopupWindow(layout, 350, 350, true); 
+			pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+			Button mainButton = (Button) layout.findViewById(R.id.btn_main);
+			mainButton.setOnClickListener(new Button.OnClickListener() {
+				public void onClick(View v){
+					backMain();
+				}
+			});
+			Button nextButton =(Button) layout.findViewById(R.id.button_next);
+			nextButton.setOnClickListener(new Button.OnClickListener() {
+				public void onClick(View v) {
+	                nextLevel();
+				}
+			});
+			
+		 }
+		 catch(Exception e)
+		 {
+			 
+		 }
+		}
+	}
+    
+    private void nextLevel()
+	{
+		Intent goToNextActivity = new Intent(getApplicationContext(), LevelFour.class);
+		startActivity(goToNextActivity);
+	}
+	
+	private void backMain()
+	{
+		Intent inten = new Intent(getApplicationContext(), MainActivity.class);
+		startActivity(inten);
+	}
+
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
@@ -278,6 +330,7 @@ public class LevelThree extends Activity implements OnClickListener{
                         word = "";	
                         updateWordList();
                         clearText();
+                        isComplete(i);
                     }
 	                else
 	                    Toast.makeText(getApplicationContext(), "Did you say that wrong?", Toast.LENGTH_SHORT);
@@ -314,14 +367,14 @@ public class LevelThree extends Activity implements OnClickListener{
 
 	 private void clearButton() 
 	 {
-		 clearText();
+		    clearText();
             selectedButtons.clear();
             for(Button button: listOfButtons)
             {
-	            button.setBackgroundColor(Color.WHITE);
 	            button.setTextColor(Color.BLACK);
 	            button.setClickable(true);
 	            button.setHighlightColor(Color.WHITE);
+	            button.setBackgroundColor(0);
             }
 	    }
 
@@ -350,7 +403,7 @@ public class LevelThree extends Activity implements OnClickListener{
 	        	word = replacement;
 	            words.setText(word);
 	            selectedButtons.remove(b);
-	            b.setBackgroundColor(1);
+	            b.setBackgroundColor(0);
 	            last = selectedButtons.peekLast();
 	            
 	            if(last!=null)

@@ -10,13 +10,10 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.speech.RecognizerIntent;
 import android.view.Gravity;
@@ -85,6 +82,7 @@ public class LevelOne extends Activity implements View.OnClickListener {
 	{
 		if(left == 0)
 		{
+			writeFileToInternalStorage();
 		 try { 
 			// We need to get the instance of the LayoutInflater 
 			LayoutInflater inflater = (LayoutInflater) LevelOne.this 
@@ -133,11 +131,10 @@ public class LevelOne extends Activity implements View.OnClickListener {
         try
         {
             textImporter= new TextImporter("words_four_letters.txt", getApplicationContext());
-            numberOfWordsLeftToFind.setText("" + textImporter.getNumberOfWordsInList());
+            numberOfWordsLeftToFind.setText(" 	" + textImporter.getNumberOfWordsInList());
         }
         catch (IOException e) {
-             Toast.makeText(getApplicationContext(), "Invalid file", Toast.LENGTH_SHORT);
-             e.printStackTrace(); 
+             Toast.makeText(getApplicationContext(), "Invalid file", Toast.LENGTH_SHORT).show();
         }
 	}
 	
@@ -177,13 +174,13 @@ public class LevelOne extends Activity implements View.OnClickListener {
 				btnTag.setText(lettersForGrid.pollFirst());
 				btnTag.setId(j + 1 + i);
 				btnTag.setOnClickListener(this);
+				btnTag.setBackgroundColor(Color.WHITE);
 				row.addView(btnTag);
                 listOfButtons.add(btnTag);
 			}
 			layout.addView(row);
 		}
 	    randomiseGrid();
-
 	}
 	
     private void updateWordList()
@@ -192,7 +189,7 @@ public class LevelOne extends Activity implements View.OnClickListener {
         int i = 0;
         for(String leftWord: wordList)
         {  
-        	wordsForList += leftWord + "  ";
+        	wordsForList += leftWord + " ";
             i++;
             if(i == 7)
             {
@@ -225,30 +222,25 @@ public class LevelOne extends Activity implements View.OnClickListener {
         {
             Button b = listOfButtons.get(i);
             b.setText(charList.pollFirst());
-            b.setBackgroundColor(Color.WHITE);
+            b.setBackgroundColor(0);
             i++;
         }
     }
     
-    private void writeFileToInternalStorage() {
-    	  String eol = System.getProperty("line.separator");
-    	  BufferedWriter writer = null;
-    	  try {
-    	    writer = 
-    	      new BufferedWriter(new OutputStreamWriter(openFileOutput("myfile", MODE_WORLD_WRITEABLE)));
-    	    writer.write("You got Achievement 1!" + eol);
-    	  } catch (Exception e) {
-    	      e.printStackTrace();
-    	  } finally {
-    	    if (writer != null) {
-    	    try {
-    	      writer.close();
-    	    } catch (IOException e) {
-    	      e.printStackTrace();
-    	    }
-    	    }
-    	  }
-    	} 
+    private void writeFileToInternalStorage() 
+    {	 
+		 FileOutputStream outputStream;
+		 String filename = "myfile";
+		 String string = "1";
+		 try {
+			 outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+			 outputStream.write(string.getBytes());
+			 outputStream.close();
+  	    	} 
+		 	catch (Exception e) {
+		 		e.printStackTrace();
+  	    	}
+  	} 
     
     private void resetButtonText()
     {
@@ -297,7 +289,6 @@ public class LevelOne extends Activity implements View.OnClickListener {
                     String wordToCheck = word;
 	                if(wordToCheck.equals(input))
                     {
-	                	writeFileToInternalStorage();
 	                	textImporter.removeWord(word);
 	                    resetButtonText();
                         String integer = (String) numberOfWordsLeftToFind.getText();
@@ -347,7 +338,7 @@ public class LevelOne extends Activity implements View.OnClickListener {
 		 clearText();
             for(Button button: listOfButtons)
             {
-	            button.setBackgroundColor(Color.WHITE);
+	            button.setBackgroundColor(0);
 	            button.setClickable(true);
             }
             selectedButtons.clear();
@@ -378,7 +369,7 @@ public class LevelOne extends Activity implements View.OnClickListener {
 	        	word = replacement;
 	            words.setText(word);
 	            selectedButtons.remove(b);
-	            b.setBackgroundColor(1);
+	            b.setBackgroundColor(0);
 	            last = selectedButtons.peekLast();
 	            
 	            if(last!=null)
