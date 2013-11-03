@@ -131,7 +131,7 @@ public class LevelOne extends Activity implements View.OnClickListener {
         try
         {
             textImporter= new TextImporter("words_four_letters.txt", getApplicationContext());
-            numberOfWordsLeftToFind.setText(" 	" + textImporter.getNumberOfWordsInList());
+            numberOfWordsLeftToFind.setText("" + textImporter.getNumberOfWordsInList());
         }
         catch (IOException e) {
              Toast.makeText(getApplicationContext(), "Invalid file", Toast.LENGTH_SHORT).show();
@@ -292,7 +292,7 @@ public class LevelOne extends Activity implements View.OnClickListener {
 	                	textImporter.removeWord(word);
 	                    resetButtonText();
                         String integer = (String) numberOfWordsLeftToFind.getText();
-                        int i = Integer.parseInt(integer);
+                        int i = Integer.parseInt(integer);                      
                         i--;
                         numberOfWordsLeftToFind.setText("" + i);
                         addScore(10);

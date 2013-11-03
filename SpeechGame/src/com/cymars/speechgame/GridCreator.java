@@ -28,7 +28,6 @@ public class GridCreator {
 		for(String word : wordList) { // add all the words in to words;
 			add(word, data);
 		}
-		
 		dataF = fill(data);
 	}
 	
@@ -36,7 +35,7 @@ public class GridCreator {
 	 * Randomly select a letter from 'a' to 'z' 
 	 * @return alphabet[c]  a random letter
 	 */
-	private char nextChar() {
+	public char nextChar() {
 		int c = r.nextInt(26);		
 		return alphabet[c];
 	}
@@ -58,6 +57,11 @@ public class GridCreator {
 	public char[][] getGrid()
 	{
 		return data;
+	}
+	
+	public int getGridLength()
+	{
+		return data.length;
 	}
 	/**
 	 * Adding a words into the grid
@@ -116,12 +120,13 @@ public class GridCreator {
 	 * @param in
 	 * @return
 	 */
-	private String flip(String in) {
+	public String flip(String in) {
 		StringBuilder ret = new StringBuilder();
 		for(int i=in.length()-1; i>=0; i--)
 			ret.append(in.charAt(i));
 		return ret.toString();
 	}
+	
 		
 	/**
 	 * Fill the grid.

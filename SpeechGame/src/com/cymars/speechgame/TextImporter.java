@@ -131,6 +131,11 @@ public class TextImporter {
     {
         return wordsInGrid;
     }
+    
+    public LinkedList<String> getWordList()
+    {
+    	return wordList;
+    }
 
     public int getNumberOfWordsInList()
     {

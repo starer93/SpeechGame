@@ -279,7 +279,7 @@ public class LevelFour extends Activity implements OnClickListener {
                         score.setText("Score: " + scores);
                         wordList.remove(wordToCheck);
                         updateList();
-                        reset();
+                        clearButton();
                         isComplete(i);
                     }
 	                else
@@ -306,15 +306,6 @@ public class LevelFour extends Activity implements OnClickListener {
         }
 	}
 	
-    private void reset()
-    {
-    	clearText();
-    	for(Button button: listOfButtons)
-    	{
-    		button.setBackgroundColor(0);
-    	}
-    	selectedButtons.clear();
-    }
 	
 	private void clearText()
 	{
